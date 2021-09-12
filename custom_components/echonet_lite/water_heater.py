@@ -80,7 +80,7 @@ class EchonetNodeWaterHeater(CoordinatorEntity, WaterHeaterEntity):
     async def async_turn_away_mode_off(self):
         pass
 
-    async def async_update(self) -> None:
-        await super().async_update()
+    def _handle_coordinator_update(self) -> None:
         self._attr_target_temperature = self._node.get_temperature()
         self._attr_current_operation = "Bath Auto" if self._node.get_bath_auto_mode() else "Off"
+        self.async_write_ha_state()
