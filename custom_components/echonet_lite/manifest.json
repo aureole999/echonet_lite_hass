@@ -1,0 +1,12 @@
+
+{
+  "domain": "echonet_lite",
+  "name": "Echonet Lite",
+  "config_flow": true,
+  "documentation": "https://github.com/home-assistant/example-custom-config/tree/master/custom_components/hello_world_async/",
+  "dependencies": [],
+  "codeowners": [],
+  "requirements": [],
+  "iot_class": "local_polling",
+  "version": "0.1.0"
+}

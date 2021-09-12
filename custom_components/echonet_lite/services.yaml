@@ -1,0 +1,9 @@
+display_notify:
+  name: Send Notify
+  description: Send a notify to a Echonet Lite display.
+  fields:
+    text:
+      name: Text
+      description: The text will be sent.
+      required: true
+      example: "example"
