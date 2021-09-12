@@ -5,3 +5,5 @@ MANUFACTURER = {
     0x69: "Toshiba",
     0x2f: "AIPHONE",
 }
+
+CONF_STATE_CLASS = "state_class"

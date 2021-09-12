@@ -1,7 +1,7 @@
 """Support for Daikin AC sensors."""
 from datetime import timedelta
 
-from homeassistant.components.sensor import SensorEntity, CONF_STATE_CLASS, _LOGGER
+from homeassistant.components.sensor import SensorEntity, _LOGGER
 from homeassistant.const import (
     CONF_DEVICE_CLASS,
     CONF_ICON,
@@ -9,7 +9,7 @@ from homeassistant.const import (
     CONF_UNIT_OF_MEASUREMENT,
 )
 from . import EchonetLiteDevice
-from .const import DOMAIN
+from .const import DOMAIN, CONF_STATE_CLASS
 from .coordinator import MyDataUpdateCoordinator
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
