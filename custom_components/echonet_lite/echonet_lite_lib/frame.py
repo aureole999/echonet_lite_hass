@@ -1,8 +1,8 @@
 import struct
 from dataclasses import dataclass
 
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.class_name import GROUP_NAME, CLASS_NAME
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.message_const import EHD1, EHD2, ESV_CODES
+from .class_name import GROUP_NAME, CLASS_NAME
+from .message_const import EHD1, EHD2, ESV_CODES
 
 
 @dataclass
@@ -69,10 +69,8 @@ class Frame:
 
         arr = fix_head_format.unpack_from(byte, 0)
         msg = Frame(*arr[:-1], None)
-        # print(msg)
         byte = byte[fix_head_format.size:]
         props = []
-        # print(arr[-1])
         for _ in range(arr[-1]):
             c = prop_text_len_format.unpack_from(byte, 1)[0] + 1
             props.append(Property(*struct.unpack_from(f'B{c}p', byte, 0)))

@@ -1,7 +1,6 @@
 from enum import Enum
 
-from homeassistant.custom_components.echonet_lite import EchonetLiteDevice
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.frame import Property
+from ... import EchonetLiteDevice
 
 
 class Climate(EchonetLiteDevice):

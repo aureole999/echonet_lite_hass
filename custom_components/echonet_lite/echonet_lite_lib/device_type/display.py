@@ -1,6 +1,6 @@
 import struct
 
-from homeassistant.custom_components.echonet_lite import EchonetLiteDevice
+from ... import EchonetLiteDevice
 
 
 class Display(EchonetLiteDevice):

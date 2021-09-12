@@ -1,19 +1,17 @@
 """Support for Echonet lite binary sensors."""
 from datetime import timedelta
-from typing import cast
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
-from homeassistant.components.sensor import SensorEntity, CONF_STATE_CLASS, _LOGGER
+from homeassistant.components.sensor import _LOGGER
 from homeassistant.const import (
     CONF_DEVICE_CLASS,
     CONF_ICON,
     CONF_NAME,
-    CONF_UNIT_OF_MEASUREMENT,
 )
-from homeassistant.custom_components.echonet_lite import EchonetLiteDevice
-from homeassistant.custom_components.echonet_lite.const import DOMAIN
-from homeassistant.custom_components.echonet_lite.coordinator import MyDataUpdateCoordinator
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, CoordinatorEntity
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from . import EchonetLiteDevice
+from .const import DOMAIN
+from .coordinator import MyDataUpdateCoordinator
 
 SCAN_INTERVAL = timedelta(seconds=5)
 

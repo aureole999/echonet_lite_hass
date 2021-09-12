@@ -10,9 +10,9 @@ from homeassistant.const import (
     CONF_ICON,
     CONF_NAME,
 )
-from homeassistant.custom_components.echonet_lite import EchonetLiteDevice
-from homeassistant.custom_components.echonet_lite.const import DOMAIN
-from homeassistant.custom_components.echonet_lite.coordinator import MyDataUpdateCoordinator
+from . import EchonetLiteDevice
+from .const import DOMAIN
+from .coordinator import MyDataUpdateCoordinator
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 

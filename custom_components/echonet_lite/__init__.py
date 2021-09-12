@@ -6,10 +6,10 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_DISCOVERY
 from homeassistant.core import HomeAssistant
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib import EchonetLiteNodes
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.EchonetLiteNodes import EchonetLiteDevice
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.EchonetLiteServer import main, EchonetLiteServer, echonet_lite_server, echonet_lite_server_startup
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.device_factory import DeviceFactory
+from .echonet_lite_lib import EchonetLiteNodes
+from .echonet_lite_lib.EchonetLiteNodes import EchonetLiteDevice
+from .echonet_lite_lib.EchonetLiteServer import main, EchonetLiteServer, echonet_lite_server, echonet_lite_server_startup
+from .echonet_lite_lib.device_factory import DeviceFactory
 from homeassistant.helpers.typing import ConfigType
 
 DOMAIN = "echonet_lite"

@@ -2,17 +2,12 @@ import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.const import CONF_DEVICE
-from homeassistant.custom_components.echonet_lite.const import DOMAIN
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.EchonetLiteNodes import EchonetLiteDevice
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.eojx import GROUP_NAME, CLASS_NAME
+from .const import DOMAIN
+from .echonet_lite_lib.EchonetLiteNodes import EchonetLiteDevice
 from homeassistant.data_entry_flow import FlowResult
 
+from .echonet_lite_lib.class_name import CLASS_NAME, GROUP_NAME
 
-# config_entry_flow.register_discovery_flow(
-#     DOMAIN,
-#     "Echonet Lite Node",
-#     async_get_discoverable_devices,
-# )
 
 class FlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 

@@ -4,12 +4,11 @@ import struct
 import time
 from typing import Any
 
-from homeassistant.custom_components.echonet_lite.const import DOMAIN, MANUFACTURER
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.EchonetLiteServer import res_handler, \
-    echonet_lite_server, echonet_lite_server_startup
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.eojx import CLASS_NAME
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.esv import GET, SETGET, SETC, SETRES
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.frame import Frame, Property
+from .class_name import CLASS_NAME
+from .message_const import SETC, SETGET, GET, SETRES
+from ..const import DOMAIN, MANUFACTURER
+from .EchonetLiteServer import res_handler, echonet_lite_server, echonet_lite_server_startup
+from .frame import Frame, Property
 
 
 def decode_prop_map(b: bytes):
@@ -126,10 +125,6 @@ class EchonetLiteDevice:
         await self.send(GET, opc, self.update_props)
 
     def update_props(self, frame: Frame, host: str, transport):
-        # if frame.ESV != GETRES:
-        #     self.update_task.set()
-        #     print(f"error: {frame}")
-        #     raise f"Device can not response: {frame}"
         self.update_task.set()
         print(f"{datetime.datetime.now()} response: {host} {frame}")
         if frame.ESV in [SETRES]:

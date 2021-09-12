@@ -6,10 +6,10 @@ from homeassistant.components.water_heater import WaterHeaterEntity, SUPPORT_TAR
 from homeassistant.const import (
     ATTR_TEMPERATURE, TEMP_CELSIUS, PRECISION_WHOLE,
 )
-from homeassistant.custom_components.echonet_lite import EchonetLiteDevice
-from homeassistant.custom_components.echonet_lite.const import DOMAIN
-from homeassistant.custom_components.echonet_lite.coordinator import MyDataUpdateCoordinator
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.device_type.water_heater import WaterHeater
+from . import EchonetLiteDevice
+from .const import DOMAIN
+from .coordinator import MyDataUpdateCoordinator
+from .echonet_lite_lib.device_type.water_heater import WaterHeater
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 
@@ -71,6 +71,7 @@ class EchonetNodeWaterHeater(CoordinatorEntity, WaterHeaterEntity):
         self._attr_current_operation = operation_mode
         await self._node.set_bath_auto_mode(operation_mode == "Bath Auto")
         await self.async_update_ha_state()
+
     pass
 
     async def async_turn_away_mode_on(self):

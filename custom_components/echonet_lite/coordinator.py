@@ -4,7 +4,7 @@ from datetime import timedelta
 from typing import Any, Callable, Awaitable, Optional
 
 from homeassistant.core import HomeAssistant
-from homeassistant.custom_components.echonet_lite.const import DOMAIN
+from .const import DOMAIN
 from homeassistant.helpers.debounce import Debouncer
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, T
 

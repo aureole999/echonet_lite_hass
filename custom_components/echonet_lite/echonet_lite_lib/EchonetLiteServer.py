@@ -1,8 +1,8 @@
 import asyncio
 from asyncio import DatagramProtocol
 
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.frame import Frame, Property
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.message_const import GET
+from .frame import Frame, Property
+from .message_const import GET
 
 ENL_MULTICAST_ADDRESS = "224.0.23.0"
 

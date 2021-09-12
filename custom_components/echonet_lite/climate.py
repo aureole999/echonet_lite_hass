@@ -4,10 +4,10 @@ from homeassistant.components.climate import ClimateEntity, SUPPORT_TARGET_TEMPE
 from homeassistant.components.climate.const import HVAC_MODE_OFF, HVAC_MODE_HEAT, HVAC_MODE_COOL, HVAC_MODE_AUTO, HVAC_MODE_DRY, HVAC_MODE_FAN_ONLY, ATTR_TARGET_TEMP_STEP, ATTR_FAN_MODES, PRESET_AWAY, PRESET_HOME
 from homeassistant.components.generic_thermostat.climate import CONF_PRECISION
 from homeassistant.const import CONF_UNIT_OF_MEASUREMENT, ATTR_TEMPERATURE, ATTR_SUPPORTED_FEATURES, TEMP_CELSIUS, PRECISION_WHOLE
-from homeassistant.custom_components.echonet_lite.const import DOMAIN
-from homeassistant.custom_components.echonet_lite.coordinator import MyDataUpdateCoordinator
-from homeassistant.custom_components.echonet_lite.echonet_lite_lib.device_type.climate import Climate
-from homeassistant.custom_components.echonet_lite.helper import get_key
+from .const import DOMAIN
+from .coordinator import MyDataUpdateCoordinator
+from .echonet_lite_lib.device_type.climate import Climate
+from .helper import get_key
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 

@@ -1,4 +1,4 @@
-from homeassistant.custom_components.echonet_lite import EchonetLiteDevice
+from ... import EchonetLiteDevice
 
 
 class GenericDevice(EchonetLiteDevice):
