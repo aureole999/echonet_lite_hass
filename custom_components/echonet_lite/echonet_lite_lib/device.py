@@ -82,7 +82,8 @@ DEVICE_SPEC = {
                     "scan_interval": 5,
                     "sensors": {
                         0xF2: {"name": "Hot water used today", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS},
-                        0xF4: {"name": "Hot water level"}
+                        0xF4: {"name": "Hot water level in tank"},
+                        0xF6: {"name": "Cumulative hot water consumption", CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS, "scale": 0.01},
                     }
                 }
             }
