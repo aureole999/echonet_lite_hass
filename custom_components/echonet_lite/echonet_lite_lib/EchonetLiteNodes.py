@@ -60,7 +60,7 @@ class EchonetLiteDevice:
         f.ESV = esv
         f.OPC = opc
         if esv == SETC:
-            logging(f"sending to {self.host} {f}")
+            _LOGGER.debug(f"sending to {self.host} {f}")
         if esv == SETGET:
             f.OPC2 = [Property(p.EPC) for p in f.OPC]
         await self.send_frame(f, callback, retry)
