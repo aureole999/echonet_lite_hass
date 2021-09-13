@@ -1,8 +1,11 @@
+import logging
 import struct
 from dataclasses import dataclass
 
 from .class_name import GROUP_NAME, CLASS_NAME
 from .message_const import EHD1, EHD2, ESV_CODES
+
+_LOGGER = logging.getLogger(__name__)
 
 
 @dataclass
@@ -36,14 +39,14 @@ class Frame:
         for (gc, cc) in [(self.SEOJGC, self.SEOJCC), (self.DEOJGC, self.DEOJCC)]:
             if gc not in GROUP_NAME:
                 raise ValueError(f'EOJGC: {hex(gc)}')
-            print(f'Group: {GROUP_NAME[gc]}')
+            _LOGGER.debug(f'Group: {GROUP_NAME[gc]}')
             if gc != 0x0F and cc not in CLASS_NAME[gc]:
                 raise ValueError(f'EOJCC: {hex(cc)}')
-            print(f'Class: {CLASS_NAME[gc].get(cc, "User Defined Class")}')
+            _LOGGER.debug(f'Class: {CLASS_NAME[gc].get(cc, "User Defined Class")}')
 
         if self.ESV not in ESV_CODES:
             raise ValueError(f'ESV: {self.ESV}')
-        print(f'ESV: {ESV_CODES[self.ESV]}')
+        _LOGGER.debug(f'ESV: {ESV_CODES[self.ESV]}')
 
     def build_msg(self) -> bytes:
         res = struct.pack('>2Bh8B', self.EHD1, self.EHD2, self.TID,
@@ -51,13 +54,13 @@ class Frame:
                           self.DEOJGC, self.DEOJCC, self.DEOJIC,
                           self.ESV, len(self.OPC))
         for p in self.OPC:
-            res += struct.pack(f'B{len(p.EDT)+1}p', p.EPC, p.EDT)
+            res += struct.pack(f'B{len(p.EDT) + 1}p', p.EPC, p.EDT)
         if len(self.OPC) == 0:
             res += struct.pack(f'>B', 0)
         if self.OPC2:
             res += struct.pack(f'>B', len(self.OPC2))
             for p in self.OPC2:
-                res += struct.pack(f'B{len(p.EDT)+1}p', p.EPC, p.EDT)
+                res += struct.pack(f'B{len(p.EDT) + 1}p', p.EPC, p.EDT)
             if len(self.OPC2) == 0:
                 res += struct.pack(f'>B', 0)
         return res
@@ -77,4 +80,3 @@ class Frame:
             byte = byte[c + 1:]
         msg.OPC = props
         return msg
-

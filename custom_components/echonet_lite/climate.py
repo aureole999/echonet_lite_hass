@@ -17,7 +17,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     climate = echonet_node.config.get("climate")
 
     if climate:
-        coordinator = await MyDataUpdateCoordinator.factory(entry.entry_id, hass, _LOGGER, "climate", update_interval=timedelta(seconds=echonet_node.config.get("scan_interval", 5)))
+        coordinator = await MyDataUpdateCoordinator.factory(entry.entry_id, hass, _LOGGER, "climate", update_interval=timedelta(seconds=echonet_node.config.get("scan_interval", 10)))
         async_add_entities([EchonetLiteClimate(coordinator, echonet_node, climate, entry.entry_id)], True)
 
 

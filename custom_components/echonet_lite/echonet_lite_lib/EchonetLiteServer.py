@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from asyncio import DatagramProtocol
 
 from .frame import Frame, Property
@@ -9,6 +10,8 @@ ENL_MULTICAST_ADDRESS = "224.0.23.0"
 res_handler = {
 
 }
+
+_LOGGER = logging.getLogger(__name__)
 
 
 def get_res_handler(data: Frame, host):
@@ -40,7 +43,7 @@ class EchonetLiteServer(DatagramProtocol):
         if callable(f):
             f(frame, addr, self.transport)
         else:
-            print('Received %r from %s' % (frame, addr))
+            _LOGGER.debug('Received %r from %s' % (frame, addr))
 
         self.transport.sendto(data, addr)
 
@@ -59,10 +62,10 @@ class EchonetLiteServer(DatagramProtocol):
         frame.DEOJIC = 0x00
         frame.ESV = GET
 
-        print(frame)
+        _LOGGER.debug(frame)
         # Send message to multicast group and receive data
-        print((netif if netif else ENL_MULTICAST_ADDRESS, 3610))
-        print('Send %r to %s' % (frame.build_msg(), (netif if netif else ENL_MULTICAST_ADDRESS, 3610)))
+        _LOGGER.debug((netif if netif else ENL_MULTICAST_ADDRESS, 3610))
+        _LOGGER.debug('Send %r to %s' % (frame.build_msg(), (netif if netif else ENL_MULTICAST_ADDRESS, 3610)))
 
         data = self.transport.sendto(frame.build_msg(), (netif if netif else ENL_MULTICAST_ADDRESS, 3610))
 
@@ -72,7 +75,7 @@ echonet_lite_server_startup = asyncio.Event()
 
 
 async def main():
-    print("Starting UDP server")
+    _LOGGER.debug("Starting UDP server")
 
     # Get a reference to the event loop as we plan to use
     # low-level APIs.

@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import logging
 import struct
 import time
 from typing import Any
@@ -9,6 +10,8 @@ from .message_const import SETC, SETGET, GET, SETRES
 from ..const import DOMAIN, MANUFACTURER
 from .EchonetLiteServer import res_handler, echonet_lite_server, echonet_lite_server_startup
 from .frame import Frame, Property
+
+_LOGGER = logging.getLogger(__name__)
 
 
 def decode_prop_map(b: bytes):
@@ -57,7 +60,7 @@ class EchonetLiteDevice:
         f.ESV = esv
         f.OPC = opc
         if esv == SETC:
-            print(f"sending to {self.host} {f}")
+            logging(f"sending to {self.host} {f}")
         if esv == SETGET:
             f.OPC2 = [Property(p.EPC) for p in f.OPC]
         await self.send_frame(f, callback, retry)
@@ -70,7 +73,7 @@ class EchonetLiteDevice:
         while retry >= 0:
             self.update_task.clear()
             if frame.ESV in [SETGET, SETC]:
-                print(f"sending {frame.build_msg()}")
+                _LOGGER.debug(f"sending {frame.build_msg()}")
             echonet_lite_server.send(frame, self.host, callback)
             if callback is None:
                 self.update_task.set()
@@ -126,7 +129,7 @@ class EchonetLiteDevice:
 
     def update_props(self, frame: Frame, host: str, transport):
         self.update_task.set()
-        print(f"{datetime.datetime.now()} response: {host} {frame}")
+        _LOGGER.debug(f"{datetime.datetime.now()} response: {host} {frame}")
         if frame.ESV in [SETRES]:
             return
         for p in frame.OPC:

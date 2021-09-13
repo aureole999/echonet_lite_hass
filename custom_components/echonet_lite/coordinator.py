@@ -26,7 +26,7 @@ class MyDataUpdateCoordinator(DataUpdateCoordinator):
                 await echonet_node.async_update()
                 return echonet_node.props
 
-            print(f"Create new coordinator for {entry_id}")
+            _LOGGER.debug(f"Create new coordinator for {entry_id}")
             c = MyDataUpdateCoordinator(
                 hass,
                 _LOGGER,

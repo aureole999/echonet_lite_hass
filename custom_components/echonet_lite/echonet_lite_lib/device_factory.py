@@ -1,3 +1,5 @@
+import logging
+
 from .device import get_config
 from .device_type.climate import *
 from .device_type.display import *
@@ -7,6 +9,7 @@ from .frame import Property
 from .message_const import GET
 
 DEVICE_INFO_RANGE = range(0x8A, 0x8F)
+_LOGGER = logging.getLogger(__name__)
 
 
 class DeviceFactory:
@@ -26,9 +29,9 @@ class DeviceFactory:
             this_device = model_device
 
         await this_device.send(GET, [Property(0x9D), Property(0x9E), Property(0x9F)], this_device.set_prop_mapping)
-        print(f"{this_device.device_info}\n"
-              f"Gettable properties: {[hex(e) for e in this_device.get_mapping]}\n"
-              f"Settable properties: {[hex(e) for e in this_device.set_mapping]}")
+        _LOGGER.debug(f"{this_device.device_info}\n"
+                      f"Gettable properties: {[hex(e) for e in this_device.get_mapping]}\n"
+                      f"Settable properties: {[hex(e) for e in this_device.set_mapping]}")
         # await this_device.async_update()
 
         # Prevent import being optimized
