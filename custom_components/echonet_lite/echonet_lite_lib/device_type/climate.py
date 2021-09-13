@@ -105,6 +105,6 @@ class ToshibaClimate(Climate):
 
     def get_prop(self, epc, t=int):
         if epc == Climate.PropKey.OUTDOOR_TEMP.value:
-            if super().get_prop(0x80) == 0x31:
+            if super().get_prop(Climate.PropKey.POWER.value) == 0x31 or super().get_prop(Climate.PropKey.OPERATION_MODE.value) == Climate.OperationMode.FAN.value:
                 return None
         return super().get_prop(epc, t)
