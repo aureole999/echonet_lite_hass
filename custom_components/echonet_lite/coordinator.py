@@ -43,13 +43,7 @@ class MyDataUpdateCoordinator(DataUpdateCoordinator):
         return c
 
     def get_prop(self, prop, t=int):
-        v = self.data.get(prop)
-        if t == int:
-            return int.from_bytes(v, byteorder="big")
-        if t == str:
-            return v.decode()
-        if t == bytes:
-            return v
+        return self.node.get_prop(prop, t)
 
     def __init__(self, hass: HomeAssistant, logger: logging.Logger, *, name: str, update_interval: Optional[timedelta] = None, update_method: Optional[Callable[[], Awaitable[T]]] = None, request_refresh_debouncer: Optional[Debouncer] = None,
                  node=None) -> None:

@@ -99,3 +99,12 @@ class Climate(EchonetLiteDevice):
 
     def get_power_saving_mode(self):
         return Climate.PowerSavingMode(self.get_prop(Climate.PropKey.POWER_SAVING_MODE.value))
+
+
+class ToshibaClimate(Climate):
+
+    def get_prop(self, epc, t=int):
+        if epc == Climate.PropKey.OUTDOOR_TEMP.value:
+            if super().get_prop(0x80) == 0x31:
+                return None
+        return super().get_prop(epc, t)

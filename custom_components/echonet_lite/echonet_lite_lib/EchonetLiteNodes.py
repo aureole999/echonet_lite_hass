@@ -132,15 +132,15 @@ class EchonetLiteDevice:
         for p in frame.OPC:
             self.props[p.EPC] = p.EDT
 
-    def get_prop(self, epc, t="int"):
+    def get_prop(self, epc, t=int):
         v = self.props.get(epc)
         if v is None:
             return v
-        if t == "int":
+        if t is int:
             return int.from_bytes(v, byteorder="big")
-        if t == "bytes":
+        if t is bytes:
             return v
-        if t == "str":
+        if t is str:
             return v.decode()
         return v
 

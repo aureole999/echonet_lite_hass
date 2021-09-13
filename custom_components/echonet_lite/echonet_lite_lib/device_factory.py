@@ -1,8 +1,8 @@
 from .device import get_config
 from .device_type.climate import *
+from .device_type.display import *
 from .device_type.generic_device import *
 from .device_type.water_heater import *
-from .device_type.display import *
 from .frame import Property
 from .message_const import GET
 

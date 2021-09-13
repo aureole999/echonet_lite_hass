@@ -55,7 +55,10 @@ class EchonetNodeSensor(CoordinatorEntity, SensorEntity):
         # return self._node.get_prop(self._epc) * self._data.get("scale", 1)
         if self._data.get("enum"):
             return self._data.get("enum").get(self.coordinator.get_prop(self._epc), f"Unknown state: {self.coordinator.get_prop(self._epc)}")
-        return self.coordinator.get_prop(self._epc) * self._data.get("scale", 1)
+        v = self.coordinator.get_prop(self._epc)
+        if type(v) == int or type(v) == float:
+            return v * self._data.get("scale", 1)
+        return v
 
     @property
     def device_class(self):

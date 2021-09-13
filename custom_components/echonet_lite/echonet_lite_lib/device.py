@@ -45,6 +45,7 @@ DEVICE_SPEC = {
 
             # Toshiba Climate
             0x69: {
+                "class_name": "ToshibaClimate",
                 "climate": {
                     ATTR_FAN_MODES: [FAN_AUTO, "silent", FAN_LOW, "medium low", FAN_MEDIUM, "medium high", FAN_HIGH, "powerful"]
                 },
