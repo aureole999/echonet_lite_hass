@@ -8,7 +8,7 @@ from homeassistant.components.switch import SwitchEntity, _LOGGER
 from homeassistant.const import (
     CONF_DEVICE_CLASS,
     CONF_ICON,
-    CONF_NAME,
+    CONF_NAME, CONF_FORCE_UPDATE,
 )
 from . import EchonetLiteDevice
 from .const import DOMAIN
@@ -90,3 +90,8 @@ class EchonetNodeSwitchSensor(CoordinatorEntity, SwitchEntity):
     def device_info(self):
         """Return a device description for device registry."""
         return self._node.device_info
+
+    @property
+    def force_update(self) -> bool:
+        """We should force updates. Repeated states have meaning."""
+        return self._def.get(CONF_FORCE_UPDATE, True)

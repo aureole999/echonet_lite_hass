@@ -4,7 +4,7 @@ from datetime import timedelta
 from homeassistant.components.sensor import _LOGGER
 from homeassistant.components.water_heater import WaterHeaterEntity, SUPPORT_TARGET_TEMPERATURE
 from homeassistant.const import (
-    ATTR_TEMPERATURE, TEMP_CELSIUS, PRECISION_WHOLE,
+    ATTR_TEMPERATURE, TEMP_CELSIUS, PRECISION_WHOLE, CONF_FORCE_UPDATE,
 )
 from . import EchonetLiteDevice
 from .const import DOMAIN
@@ -84,3 +84,8 @@ class EchonetNodeWaterHeater(CoordinatorEntity, WaterHeaterEntity):
         self._attr_target_temperature = self._node.get_temperature()
         self._attr_current_operation = "Bath Auto" if self._node.get_bath_auto_mode() else "Off"
         self.async_write_ha_state()
+
+    @property
+    def force_update(self) -> bool:
+        """We should force updates. Repeated states have meaning."""
+        return self._conf.get(CONF_FORCE_UPDATE, True)

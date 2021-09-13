@@ -3,7 +3,7 @@ from datetime import timedelta
 from homeassistant.components.climate import ClimateEntity, SUPPORT_TARGET_TEMPERATURE, SUPPORT_TARGET_HUMIDITY, SUPPORT_FAN_MODE, SUPPORT_PRESET_MODE, SUPPORT_SWING_MODE, _LOGGER, ATTR_MIN_TEMP, ATTR_MAX_TEMP
 from homeassistant.components.climate.const import HVAC_MODE_OFF, HVAC_MODE_HEAT, HVAC_MODE_COOL, HVAC_MODE_AUTO, HVAC_MODE_DRY, HVAC_MODE_FAN_ONLY, ATTR_TARGET_TEMP_STEP, ATTR_FAN_MODES, PRESET_AWAY, PRESET_HOME
 from homeassistant.components.generic_thermostat.climate import CONF_PRECISION
-from homeassistant.const import CONF_UNIT_OF_MEASUREMENT, ATTR_TEMPERATURE, ATTR_SUPPORTED_FEATURES, TEMP_CELSIUS, PRECISION_WHOLE
+from homeassistant.const import CONF_UNIT_OF_MEASUREMENT, ATTR_TEMPERATURE, ATTR_SUPPORTED_FEATURES, TEMP_CELSIUS, PRECISION_WHOLE, CONF_FORCE_UPDATE
 from .const import DOMAIN
 from .coordinator import MyDataUpdateCoordinator
 from .echonet_lite_lib.device_type.climate import Climate
@@ -51,6 +51,7 @@ class EchonetLiteClimate(CoordinatorEntity, ClimateEntity):
         self._attr_min_temp = config.get(ATTR_MIN_TEMP, 0)
         self._attr_max_temp = config.get(ATTR_MAX_TEMP, 50)
         self._attr_hvac_modes = [m for m in config.get("hvac_modes", []) if m in EchonetLiteClimate.HVAC_MODE]
+        self._force_update = config.get(CONF_FORCE_UPDATE, True)
 
         if not self._node.is_support(Climate.PropKey.SET_TEMP):
             self._attr_supported_features &= ~SUPPORT_TARGET_TEMPERATURE
@@ -137,3 +138,8 @@ class EchonetLiteClimate(CoordinatorEntity, ClimateEntity):
     def unique_id(self):
         """Return a unique ID."""
         return f"{self.device_info['identifiers']}-climate"
+
+    @property
+    def force_update(self) -> bool:
+        """We should force updates. Repeated states have meaning."""
+        return self._force_update

@@ -6,7 +6,7 @@ from homeassistant.components.sensor import _LOGGER
 from homeassistant.const import (
     CONF_DEVICE_CLASS,
     CONF_ICON,
-    CONF_NAME,
+    CONF_NAME, CONF_FORCE_UPDATE,
 )
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from . import EchonetLiteDevice
@@ -64,3 +64,8 @@ class EchonetNodeBinarySensor(CoordinatorEntity, BinarySensorEntity):
     def device_info(self):
         """Return a device description for device registry."""
         return self._node.device_info
+
+    @property
+    def force_update(self) -> bool:
+        """We should force updates. Repeated states have meaning."""
+        return self._data.get(CONF_FORCE_UPDATE, True)

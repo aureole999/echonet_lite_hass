@@ -6,7 +6,7 @@ from homeassistant.const import (
     CONF_DEVICE_CLASS,
     CONF_ICON,
     CONF_NAME,
-    CONF_UNIT_OF_MEASUREMENT,
+    CONF_UNIT_OF_MEASUREMENT, CONF_FORCE_UPDATE,
 )
 from . import EchonetLiteDevice
 from .const import DOMAIN, CONF_STATE_CLASS
@@ -84,3 +84,8 @@ class EchonetNodeSensor(CoordinatorEntity, SensorEntity):
     def device_info(self):
         """Return a device description for device registry."""
         return self._node.device_info
+
+    @property
+    def force_update(self) -> bool:
+        """We should force updates. Repeated states have meaning."""
+        return self._data.get(CONF_FORCE_UPDATE, True)
