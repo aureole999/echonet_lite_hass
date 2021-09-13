@@ -5,8 +5,8 @@ A Home Assistant integration for ECHONET Lite compatible devices.
 
 ### Note
 Only implement and test for my own devices:
-- Toshiba Climate
-- Panasonic Enefarm (エネファーム) with floor heater
+- Toshiba HVAC
+- Panasonic fuel cell Ene-farm (エネファーム) with Tokyo gas floor heater
 - AIPHONE doorbell
 
 Other brands HVAC system or devices might be work with this component.  
@@ -30,7 +30,7 @@ https://hacs.xyz/docs/faq/custom_repositories/
 2. Find `Echonet Lite` in the integration list.
 3. It will auto list all your ECHONET Lite compatible devices.<br><br> 
 If there is nothing in the device list, please ensure ECHONET Lite protocol is enabled in your device and ensure your device and home assistant are in the same local network.<br><br>
-This component need to open UDP port `3000` for receiving ECHONET Lite package. Check your firewall if anything goes wrong.
+This component needs to open UDP port `3000` for receiving ECHONET Lite package. Check your firewall if anything goes wrong.
 
 
-4. Select one device to finish setup. Device and entities will be available in the HA once you have done setup.
+4. Select one device to finish setup. Devices and entities will be available in the HA once you have done setup.
