@@ -5,11 +5,11 @@ import struct
 import time
 from typing import Any
 
+from .EchonetLiteServer import res_handler, echonet_lite_server, echonet_lite_server_startup
 from .class_name import CLASS_NAME
+from .frame import Frame, Property
 from .message_const import SETC, SETGET, GET, SETRES
 from ..const import DOMAIN, MANUFACTURER
-from .EchonetLiteServer import res_handler, echonet_lite_server, echonet_lite_server_startup
-from .frame import Frame, Property
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -79,10 +79,14 @@ class EchonetLiteDevice:
                 self.update_task.set()
                 return
             try:
-                await asyncio.wait_for(self.update_task.wait(), 10)
+                await asyncio.wait_for(self.update_task.wait(), 5)
                 break
-            except TimeoutError:
+            except asyncio.TimeoutError:
                 retry -= 1
+                if retry >= 0:
+                    _LOGGER.debug(f"retry send data {frame}")
+                else:
+                    raise asyncio.TimeoutError()
                 self.update_task.set()
 
     @staticmethod
@@ -125,7 +129,7 @@ class EchonetLiteDevice:
     # @Throttle(TIME_BETWEEN_UPDATES)
     async def async_update(self):
         opc = [Property(epc) for epc in self.get_mapping if epc not in EchonetLiteDevice.DEVICE_INFO_RANGE]
-        await self.send(GET, opc, self.update_props)
+        await self.send(GET, opc, self.update_props, retry=2)
 
     def update_props(self, frame: Frame, host: str, transport):
         self.update_task.set()
