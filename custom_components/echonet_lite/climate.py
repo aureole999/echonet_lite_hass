@@ -51,7 +51,7 @@ class EchonetLiteClimate(CoordinatorEntity, ClimateEntity):
         self._attr_min_temp = config.get(ATTR_MIN_TEMP, 0)
         self._attr_max_temp = config.get(ATTR_MAX_TEMP, 50)
         self._attr_hvac_modes = [m for m in config.get("hvac_modes", []) if m in EchonetLiteClimate.HVAC_MODE]
-        self._force_update = config.get(CONF_FORCE_UPDATE, True)
+        self._force_update = config.get(CONF_FORCE_UPDATE, False)
 
         if not self._node.is_support(Climate.PropKey.SET_TEMP):
             self._attr_supported_features &= ~SUPPORT_TARGET_TEMPERATURE

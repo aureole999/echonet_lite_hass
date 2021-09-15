@@ -88,4 +88,4 @@ class EchonetNodeWaterHeater(CoordinatorEntity, WaterHeaterEntity):
     @property
     def force_update(self) -> bool:
         """We should force updates. Repeated states have meaning."""
-        return self._conf.get(CONF_FORCE_UPDATE, True)
+        return self._conf.get(CONF_FORCE_UPDATE, False)

@@ -94,4 +94,4 @@ class EchonetNodeSwitchSensor(CoordinatorEntity, SwitchEntity):
     @property
     def force_update(self) -> bool:
         """We should force updates. Repeated states have meaning."""
-        return self._def.get(CONF_FORCE_UPDATE, True)
+        return self._def.get(CONF_FORCE_UPDATE, False)

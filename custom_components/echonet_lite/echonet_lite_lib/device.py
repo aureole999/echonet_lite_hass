@@ -5,7 +5,7 @@ from homeassistant.components.sensor import STATE_CLASS_TOTAL_INCREASING
 from homeassistant.components.water_heater import SUPPORT_TARGET_TEMPERATURE, SUPPORT_OPERATION_MODE
 from homeassistant.const import DEVICE_CLASS_TEMPERATURE, TEMP_CELSIUS, DEVICE_CLASS_POWER, POWER_WATT, \
     DEVICE_CLASS_ENERGY, ENERGY_WATT_HOUR, DEVICE_CLASS_GAS, VOLUME_FLOW_RATE_CUBIC_METERS_PER_HOUR, \
-    VOLUME_CUBIC_METERS, VOLUME_LITERS, CONF_DEVICE_CLASS, CONF_UNIT_OF_MEASUREMENT, DEVICE_CLASS_CURRENT, ELECTRIC_CURRENT_AMPERE, DEVICE_CLASS_HUMIDITY, PERCENTAGE, ATTR_SUPPORTED_FEATURES, PRECISION_WHOLE
+    VOLUME_CUBIC_METERS, VOLUME_LITERS, CONF_DEVICE_CLASS, CONF_UNIT_OF_MEASUREMENT, DEVICE_CLASS_CURRENT, ELECTRIC_CURRENT_AMPERE, DEVICE_CLASS_HUMIDITY, PERCENTAGE, ATTR_SUPPORTED_FEATURES, PRECISION_WHOLE, CONF_FORCE_UPDATE
 from ..const import CONF_STATE_CLASS
 
 DEVICE_SPEC = {
@@ -21,7 +21,7 @@ DEVICE_SPEC = {
         0x30: {
             "class_name": "Climate",
             "sensors": {
-                0xB9: {"name": "Current consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_CURRENT, CONF_UNIT_OF_MEASUREMENT: ELECTRIC_CURRENT_AMPERE},
+                0xB9: {"name": "Current consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_CURRENT, CONF_UNIT_OF_MEASUREMENT: ELECTRIC_CURRENT_AMPERE, CONF_FORCE_UPDATE: True},
                 0xBA: {"name": "Indoor relative humidity", CONF_DEVICE_CLASS: DEVICE_CLASS_HUMIDITY, CONF_UNIT_OF_MEASUREMENT: PERCENTAGE},
                 0xBB: {"name": "Indoor temperature", CONF_DEVICE_CLASS: DEVICE_CLASS_TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: TEMP_CELSIUS},
                 0xBC: {"name": "Remote controller temperature", CONF_DEVICE_CLASS: DEVICE_CLASS_TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: TEMP_CELSIUS},
@@ -58,12 +58,12 @@ DEVICE_SPEC = {
                 0xC2: {"name": "Rated power generation output", CONF_DEVICE_CLASS: DEVICE_CLASS_POWER, CONF_UNIT_OF_MEASUREMENT: POWER_WATT},
                 0xC3: {"name": "Heating value of hot water storage tank", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: "MJ"},
                 0xC4: {"name": "Instantaneous power generation output", CONF_DEVICE_CLASS: DEVICE_CLASS_POWER, CONF_UNIT_OF_MEASUREMENT: POWER_WATT},
-                0xC5: {"name": "Cumulative power generation output", CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY, CONF_UNIT_OF_MEASUREMENT: ENERGY_WATT_HOUR, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING},
+                0xC5: {"name": "Cumulative power generation output", CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY, CONF_UNIT_OF_MEASUREMENT: ENERGY_WATT_HOUR, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
                 0xC7: {"name": "Instantaneous gas consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_GAS, CONF_UNIT_OF_MEASUREMENT: VOLUME_FLOW_RATE_CUBIC_METERS_PER_HOUR, "scale": 0.001},
-                0xC8: {"name": "Cumulative gas consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_GAS, CONF_UNIT_OF_MEASUREMENT: VOLUME_CUBIC_METERS, "scale": 0.001, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING},
+                0xC8: {"name": "Cumulative gas consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_GAS, CONF_UNIT_OF_MEASUREMENT: VOLUME_CUBIC_METERS, "scale": 0.001, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
                 0xCB: {"name": "Power generation status", CONF_DEVICE_CLASS: None, "enum": {0x41: "Generating", 0x42: "Stopped", 0x43: "Starting", 0x44: "Stopping", 0x45: "Idling"}},
                 0xCC: {"name": "In-house instantaneous power consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_POWER, CONF_UNIT_OF_MEASUREMENT: POWER_WATT},
-                0xCD: {"name": "In-house cumulative power consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY, CONF_UNIT_OF_MEASUREMENT: ENERGY_WATT_HOUR, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING},
+                0xCD: {"name": "In-house cumulative power consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY, CONF_UNIT_OF_MEASUREMENT: ENERGY_WATT_HOUR, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
                 0xE1: {"name": "Remaining hot water amount", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS},
                 0xE2: {"name": "Tank capacity", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS},
             },
@@ -81,8 +81,8 @@ DEVICE_SPEC = {
                     "sensors": {
                         0xF2: {"name": "Hot water used today", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS},
                         0xF4: {"name": "Hot water level in tank"},
-                        0xF6: {"name": "Cumulative hot water consumption", CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS, "scale": 0.01},
-                        0xF7: {"name": "Cumulative other gas consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_GAS, CONF_UNIT_OF_MEASUREMENT: VOLUME_CUBIC_METERS, "scale": 0.001, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING},
+                        0xF6: {"name": "Cumulative hot water consumption", CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS, "scale": 0.01, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
+                        0xF7: {"name": "Cumulative other gas consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_GAS, CONF_UNIT_OF_MEASUREMENT: VOLUME_CUBIC_METERS, "scale": 0.001, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
                     }
                 }
             }
