@@ -3,6 +3,7 @@
 
 A Home Assistant integration for ECHONET Lite compatible devices.
 
+
 ### Note
 Only implement and test for my own devices:
 - Toshiba HVAC
@@ -15,6 +16,10 @@ If it isn't, you can define your device in `echonet_lite_lib/device.py`
 No test code and no separated library for now because I'm not familiar with Python.
 
 __I am not responsible for any damage to the equipment caused by the use of this component__
+
+
+*Integrate Ene-farm（エネファーム） into energy page in Home Assistant*
+![](https://github.com/aureole999/echonet_lite_hass/raw/master/energy.png "Integrate Ene-farm（エネファーム） into energy page in Home Assistant")
 
 
 ## Installation
