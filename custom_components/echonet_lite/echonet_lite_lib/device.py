@@ -77,7 +77,7 @@ DEVICE_SPEC = {
             # Panasonic Fuel Cell
             0x0B: {
                 'FC-70JR13T': {
-                    "scan_interval": 5,
+                    "scan_interval": 10,
                     "sensors": {
                         0xF2: {"name": "Hot water used today", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS},
                         0xF4: {"name": "Hot water level in tank"},
