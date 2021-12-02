@@ -83,7 +83,7 @@ class EchonetNodeSwitchSensor(CoordinatorEntity, SwitchEntity):
 
     @property
     def entity_category(self):
-        return self._data.get(CONF_ENTITY_CATEGORY)
+        return self._def.get(CONF_ENTITY_CATEGORY)
 
     @property
     def icon(self):
