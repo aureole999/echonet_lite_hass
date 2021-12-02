@@ -8,7 +8,7 @@ from homeassistant.components.switch import SwitchEntity, _LOGGER
 from homeassistant.const import (
     CONF_DEVICE_CLASS,
     CONF_ICON,
-    CONF_NAME, CONF_FORCE_UPDATE,
+    CONF_NAME, CONF_FORCE_UPDATE, CONF_ENTITY_CATEGORY,
 )
 from . import EchonetLiteDevice
 from .const import DOMAIN
@@ -80,6 +80,10 @@ class EchonetNodeSwitchSensor(CoordinatorEntity, SwitchEntity):
     def device_class(self):
         """Return the class of this device."""
         return self._def.get(CONF_DEVICE_CLASS, "switch")
+
+    @property
+    def entity_category(self):
+        return self._data.get(CONF_ENTITY_CATEGORY)
 
     @property
     def icon(self):

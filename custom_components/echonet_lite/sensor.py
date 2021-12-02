@@ -6,7 +6,7 @@ from homeassistant.const import (
     CONF_DEVICE_CLASS,
     CONF_ICON,
     CONF_NAME,
-    CONF_UNIT_OF_MEASUREMENT, CONF_FORCE_UPDATE,
+    CONF_UNIT_OF_MEASUREMENT, CONF_FORCE_UPDATE, CONF_ENTITY_CATEGORY,
 )
 from . import EchonetLiteDevice
 from .const import DOMAIN, CONF_STATE_CLASS
@@ -64,6 +64,10 @@ class EchonetNodeSensor(CoordinatorEntity, SensorEntity):
     def device_class(self):
         """Return the class of this device."""
         return self._data.get(CONF_DEVICE_CLASS)
+
+    @property
+    def entity_category(self):
+        return self._data.get(CONF_ENTITY_CATEGORY)
 
     @property
     def icon(self):

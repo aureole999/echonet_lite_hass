@@ -106,6 +106,8 @@ class EchonetLiteDevice:
         self.announce_mapping = decode_prop_map(opc_dict[0x9D])
         self.set_mapping = decode_prop_map(opc_dict[0x9E])
         self.get_mapping = decode_prop_map(opc_dict[0x9F])
+        self._device_info["settable props"] = str(self.set_mapping)
+        self._device_info["gettable props"] = str(self.get_mapping)
 
     def set_device_info(self, frame: Frame, host: str, transport):
         self.update_task.set()

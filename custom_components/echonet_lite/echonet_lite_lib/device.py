@@ -5,7 +5,8 @@ from homeassistant.components.sensor import STATE_CLASS_TOTAL_INCREASING
 from homeassistant.components.water_heater import SUPPORT_TARGET_TEMPERATURE, SUPPORT_OPERATION_MODE
 from homeassistant.const import DEVICE_CLASS_TEMPERATURE, TEMP_CELSIUS, DEVICE_CLASS_POWER, POWER_WATT, \
     DEVICE_CLASS_ENERGY, ENERGY_WATT_HOUR, DEVICE_CLASS_GAS, VOLUME_FLOW_RATE_CUBIC_METERS_PER_HOUR, \
-    VOLUME_CUBIC_METERS, VOLUME_LITERS, CONF_DEVICE_CLASS, CONF_UNIT_OF_MEASUREMENT, DEVICE_CLASS_CURRENT, ELECTRIC_CURRENT_AMPERE, DEVICE_CLASS_HUMIDITY, PERCENTAGE, ATTR_SUPPORTED_FEATURES, PRECISION_WHOLE, CONF_FORCE_UPDATE
+    VOLUME_CUBIC_METERS, VOLUME_LITERS, CONF_DEVICE_CLASS, CONF_UNIT_OF_MEASUREMENT, DEVICE_CLASS_CURRENT, ELECTRIC_CURRENT_AMPERE, DEVICE_CLASS_HUMIDITY, PERCENTAGE, ATTR_SUPPORTED_FEATURES, PRECISION_WHOLE, CONF_FORCE_UPDATE, CONF_ENTITY_CATEGORY, \
+    ENTITY_CATEGORY_CONFIG
 from ..const import CONF_STATE_CLASS
 
 DEVICE_SPEC = {
@@ -37,8 +38,8 @@ DEVICE_SPEC = {
                 ATTR_FAN_MODES: [FAN_AUTO, FAN_LOW, FAN_MEDIUM, FAN_HIGH]
             },
             "switches": {
-                0x8F: {"name": "Power saving", "on": 0x41, "off": 0x42},
-                0xCF: {"name": "Air purifier", "on": 0x41, "off": 0x42},
+                0x8F: {"name": "Power saving", "on": 0x41, "off": 0x42, CONF_ENTITY_CATEGORY: ENTITY_CATEGORY_CONFIG},
+                0xCF: {"name": "Air purifier", "on": 0x41, "off": 0x42, CONF_ENTITY_CATEGORY: ENTITY_CATEGORY_CONFIG},
             },
 
             # Toshiba Climate
@@ -71,7 +72,7 @@ DEVICE_SPEC = {
                 0x80: {"name": "Operation status", "on": 0x30},
             },
             "switches": {
-                0xCA: {"name": "Power generation setting", "on": 0x41, "off": 0x42}
+                0xCA: {"name": "Power generation setting", "on": 0x41, "off": 0x42, CONF_ENTITY_CATEGORY: ENTITY_CATEGORY_CONFIG}
             },
 
             # Panasonic Fuel Cell
@@ -121,10 +122,10 @@ DEVICE_SPEC = {
         0x70: {
             "class_name": "GenericDevice",
 
-            # Panasonic
+            # Panasonic Floor Heating
             0x0B: {
                 "sensors": {
-                    0xE1: {"name": ""}
+                    0xE1: {"name": "heating level", CONF_DEVICE_CLASS: None, "enum": {0x31: 1, 0x32: 2, 0x33: 3, 0x34: 4, 0x35: 5, 0x36: 6, 0x37: 7, 0x38: 8, 0x39: 9}}
                 },
                 "switches": {
                     0x80: {"name": "power", "on": 0x30, "off": 0x31, "delay": 20}
