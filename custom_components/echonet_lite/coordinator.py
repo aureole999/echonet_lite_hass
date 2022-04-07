@@ -6,7 +6,7 @@ from typing import Any, Callable, Awaitable, Optional
 from homeassistant.core import HomeAssistant
 from .const import DOMAIN
 from homeassistant.helpers.debounce import Debouncer
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, T
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 
 class MyDataUpdateCoordinator(DataUpdateCoordinator):
