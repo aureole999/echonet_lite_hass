@@ -45,7 +45,6 @@ class MyDataUpdateCoordinator(DataUpdateCoordinator):
     def get_prop(self, prop, t=int):
         return self.node.get_prop(prop, t)
 
-    def __init__(self, hass: HomeAssistant, logger: logging.Logger, *, name: str, update_interval: Optional[timedelta] = None, update_method: Optional[Callable[[], Awaitable[T]]] = None, request_refresh_debouncer: Optional[Debouncer] = None,
-                 node=None) -> None:
+    def __init__(self, hass, logger, *, name, update_interval=None, update_method=None, request_refresh_debouncer=None, node=None) -> None:
         super().__init__(hass, logger, name=name, update_interval=update_interval, update_method=update_method, request_refresh_debouncer=request_refresh_debouncer)
         self.node = node
