@@ -61,7 +61,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     retry = 3
     while not host and retry > 0:
         retry -= 1
-        await asyncio.sleep(2000)
+        await asyncio.sleep(2)
         hosts = dict([(i.identifier, i.host) for i in await EchonetLiteDevice.discovery(force=True)])
         host = hosts.get(entry.data["identifier"])
     if not host:
