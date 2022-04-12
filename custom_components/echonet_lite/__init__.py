@@ -56,22 +56,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     config_data = hass.data.setdefault(DOMAIN, {})
     discovered_node = await EchonetLiteDevice.discovery()
     hosts = dict([(i.identifier, i.host) for i in discovered_node])
-    # if config_data is None and entry.data:
-    #     config_data = entry.data
-    # elif config_data is not None:
-    #     hass.config_entries.async_update_entry(entry, data=config_data)
-    #
-    # device_registry = dr.async_get(hass)
-    # tplink_devices = dr.async_entries_for_config_entry(device_registry, entry.entry_id)
-    # device_count = len(tplink_devices)
-    # hass_data: dict[str, Any] = hass.data[DOMAIN]
-    # server = await main()
-    # nodes.clear()
-    # server.discover()
-    # # await asyncio.sleep(1000)
-    # hass_data["lights"] = [EchonetLiteNode(("192.168.1.1", 2020), 2, 124, 1)]
     host = hosts.get(entry.data["identifier"])
-    if not host:
+    
+    retry = 3
+    while not host and retry > 0:
+        retry -= 1
+        await asyncio.sleep(2000)
         hosts = dict([(i.identifier, i.host) for i in await EchonetLiteDevice.discovery(force=True)])
         host = hosts.get(entry.data["identifier"])
     if not host:
