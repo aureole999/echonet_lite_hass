@@ -74,6 +74,12 @@ class EchonetLiteDevice:
             self.update_task.clear()
             if frame.ESV in [SETGET, SETC]:
                 _LOGGER.debug(f"sending {frame.build_msg()}")
+            if not self.host:
+                hosts = dict([(i.identifier, i.host) for i in await EchonetLiteDevice.discovery(force=True)])
+                self.host = hosts.get(self.identifier)
+            if not self.host:
+                self.update_task.set()
+                return
             echonet_lite_server.send(frame, self.host, callback)
             if callback is None:
                 self.update_task.set()
@@ -86,7 +92,10 @@ class EchonetLiteDevice:
                 if retry >= 0:
                     _LOGGER.debug(f"retry send data {frame}")
                 else:
+                    self.host = None
+                    _LOGGER.debug(f"try to get host next time")
                     raise asyncio.TimeoutError()
+            finally:
                 self.update_task.set()
 
     @staticmethod
@@ -97,7 +106,7 @@ class EchonetLiteDevice:
         EchonetLiteDevice.discovered_node.clear()
         await echonet_lite_server_startup.wait()
         echonet_lite_server.discover()
-        await asyncio.sleep(2)
+        await asyncio.sleep(5)
         return EchonetLiteDevice.discovered_node
 
     def set_prop_mapping(self, frame: Frame, host: str, transport):
@@ -131,7 +140,7 @@ class EchonetLiteDevice:
     # @Throttle(TIME_BETWEEN_UPDATES)
     async def async_update(self):
         opc = [Property(epc) for epc in self.get_mapping if epc not in EchonetLiteDevice.DEVICE_INFO_RANGE]
-        await self.send(GET, opc, self.update_props, retry=2)
+        await self.send(GET, opc, self.update_props, retry=3)
 
     def update_props(self, frame: Frame, host: str, transport):
         self.update_task.set()
