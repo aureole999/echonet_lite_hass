@@ -52,7 +52,6 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up TPLink from a config entry."""
     config_data = hass.data.setdefault(DOMAIN, {})
     discovered_node = await EchonetLiteDevice.discovery()
     hosts = dict([(i.identifier, i.host) for i in discovered_node])
