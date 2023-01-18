@@ -85,8 +85,8 @@ DEVICE_SPEC = {
                 'FC-70JR13T': {
                     "scan_interval": 10,
                     "sensors": {
-                        0xF2: {"name": "Hot water consumption in tank today", CONF_DEVICE_CLASS: SensorDeviceClass.WATER, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.LITERS, CONF_FORCE_UPDATE: True},
-                        0xF3: {"name": "Hot water consumption by combustion today", CONF_DEVICE_CLASS: SensorDeviceClass.WATER, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.LITERS, CONF_FORCE_UPDATE: True},
+                        0xF2: {"name": "Hot water consumption in tank today", CONF_DEVICE_CLASS: SensorDeviceClass.WATER, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.LITERS, CONF_STATE_CLASS: SensorStateClass.TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
+                        0xF3: {"name": "Hot water consumption by combustion today", CONF_DEVICE_CLASS: SensorDeviceClass.WATER, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.LITERS, CONF_STATE_CLASS: SensorStateClass.TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
                         0xF4: {"name": "Hot water level in tank"},
                         0xF6: {"name": "Cumulative hot water consumption in tank", CONF_DEVICE_CLASS: SensorDeviceClass.WATER, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.LITERS, "scale": 0.01, CONF_STATE_CLASS: SensorStateClass.TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
                         0xF7: {"name": "Cumulative other gas consumption", CONF_DEVICE_CLASS: SensorDeviceClass.GAS, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.CUBIC_METERS, "scale": 0.001, CONF_STATE_CLASS: SensorStateClass.TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
