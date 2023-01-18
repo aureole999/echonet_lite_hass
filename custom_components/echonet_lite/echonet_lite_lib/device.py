@@ -1,11 +1,15 @@
-from homeassistant.components.binary_sensor import DEVICE_CLASS_OCCUPANCY
-from homeassistant.components.climate import HVAC_MODE_OFF, HVAC_MODE_HEAT, HVAC_MODE_COOL, ATTR_TARGET_TEMP_STEP, ATTR_MIN_TEMP, ATTR_HVAC_MODES
-from homeassistant.components.climate.const import HVAC_MODE_AUTO, HVAC_MODE_DRY, HVAC_MODE_FAN_ONLY, ATTR_MAX_TEMP, SUPPORT_TARGET_HUMIDITY, SUPPORT_FAN_MODE, ATTR_FAN_MODES, FAN_AUTO, FAN_LOW, FAN_MEDIUM, FAN_HIGH, SUPPORT_PRESET_MODE, SUPPORT_SWING_MODE
-from homeassistant.components.sensor import STATE_CLASS_TOTAL_INCREASING
-from homeassistant.components.water_heater import SUPPORT_TARGET_TEMPERATURE, SUPPORT_OPERATION_MODE
-from homeassistant.const import DEVICE_CLASS_TEMPERATURE, TEMP_CELSIUS, DEVICE_CLASS_POWER, POWER_WATT, \
-    DEVICE_CLASS_ENERGY, ENERGY_WATT_HOUR, DEVICE_CLASS_GAS, VOLUME_FLOW_RATE_CUBIC_METERS_PER_HOUR, \
-    VOLUME_CUBIC_METERS, VOLUME_LITERS, CONF_DEVICE_CLASS, CONF_UNIT_OF_MEASUREMENT, DEVICE_CLASS_CURRENT, ELECTRIC_CURRENT_AMPERE, DEVICE_CLASS_HUMIDITY, PERCENTAGE, ATTR_SUPPORTED_FEATURES, PRECISION_WHOLE, CONF_FORCE_UPDATE, CONF_ENTITY_CATEGORY
+from homeassistant.components.binary_sensor import BinarySensorDeviceClass
+from homeassistant.components.climate import ATTR_TARGET_TEMP_STEP, \
+    ATTR_MIN_TEMP, ATTR_HVAC_MODES
+from homeassistant.components.climate.const import ATTR_MAX_TEMP, \
+    ATTR_FAN_MODES, FAN_AUTO, FAN_LOW, FAN_MEDIUM, FAN_HIGH, \
+    HVACMode, ClimateEntityFeature
+from homeassistant.components.sensor import SensorStateClass, SensorDeviceClass
+from homeassistant.components.water_heater import WaterHeaterEntityFeature
+from homeassistant.const import CONF_DEVICE_CLASS, CONF_UNIT_OF_MEASUREMENT, PERCENTAGE, \
+    ATTR_SUPPORTED_FEATURES, PRECISION_WHOLE, \
+    CONF_FORCE_UPDATE, CONF_ENTITY_CATEGORY, UnitOfVolume, UnitOfElectricCurrent, UnitOfTemperature, UnitOfPower, \
+    UnitOfEnergy, UnitOfVolumeFlowRate
 from homeassistant.helpers.entity import EntityCategory
 
 from ..const import CONF_STATE_CLASS
@@ -15,7 +19,7 @@ DEVICE_SPEC = {
         0x08: {
             "class_name": "GenericDevice",
             "binary_sensors": {
-                0xB1: {"name": "Visitor detection", CONF_DEVICE_CLASS: DEVICE_CLASS_OCCUPANCY, "on": 0x41},
+                0xB1: {"name": "Visitor detection", CONF_DEVICE_CLASS: BinarySensorDeviceClass.OCCUPANCY, "on": 0x41},
             }
         }
     },
@@ -23,19 +27,19 @@ DEVICE_SPEC = {
         0x30: {
             "class_name": "Climate",
             "sensors": {
-                0xB9: {"name": "Current consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_CURRENT, CONF_UNIT_OF_MEASUREMENT: ELECTRIC_CURRENT_AMPERE, CONF_FORCE_UPDATE: True},
-                0xBA: {"name": "Indoor relative humidity", CONF_DEVICE_CLASS: DEVICE_CLASS_HUMIDITY, CONF_UNIT_OF_MEASUREMENT: PERCENTAGE},
-                0xBB: {"name": "Indoor temperature", CONF_DEVICE_CLASS: DEVICE_CLASS_TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: TEMP_CELSIUS},
-                0xBC: {"name": "Remote controller temperature", CONF_DEVICE_CLASS: DEVICE_CLASS_TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: TEMP_CELSIUS},
-                0xBD: {"name": "Cooled air temperature", CONF_DEVICE_CLASS: DEVICE_CLASS_TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: TEMP_CELSIUS},
-                0xBE: {"name": "Outdoor temperature", CONF_DEVICE_CLASS: DEVICE_CLASS_TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: TEMP_CELSIUS},
+                0xB9: {"name": "Current consumption", CONF_DEVICE_CLASS: SensorDeviceClass.CURRENT, CONF_UNIT_OF_MEASUREMENT: UnitOfElectricCurrent.AMPERE, CONF_FORCE_UPDATE: True},
+                0xBA: {"name": "Indoor relative humidity", CONF_DEVICE_CLASS: SensorDeviceClass.HUMIDITY, CONF_UNIT_OF_MEASUREMENT: PERCENTAGE},
+                0xBB: {"name": "Indoor temperature", CONF_DEVICE_CLASS: SensorDeviceClass.TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS},
+                0xBC: {"name": "Remote controller temperature", CONF_DEVICE_CLASS: SensorDeviceClass.TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS},
+                0xBD: {"name": "Cooled air temperature", CONF_DEVICE_CLASS: SensorDeviceClass.TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS},
+                0xBE: {"name": "Outdoor temperature", CONF_DEVICE_CLASS: SensorDeviceClass.TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS},
             },
             "climate": {
-                ATTR_HVAC_MODES: [HVAC_MODE_OFF, HVAC_MODE_HEAT, HVAC_MODE_COOL, HVAC_MODE_AUTO, HVAC_MODE_DRY, HVAC_MODE_FAN_ONLY],
+                ATTR_HVAC_MODES: [HVACMode.OFF, HVACMode.HEAT, HVACMode.COOL, HVACMode.AUTO, HVACMode.DRY, HVACMode.FAN_ONLY],
                 ATTR_MIN_TEMP: 16,
                 ATTR_MAX_TEMP: 30,
                 ATTR_TARGET_TEMP_STEP: PRECISION_WHOLE,
-                ATTR_SUPPORTED_FEATURES: SUPPORT_TARGET_TEMPERATURE | SUPPORT_TARGET_HUMIDITY | SUPPORT_FAN_MODE | SUPPORT_PRESET_MODE | SUPPORT_SWING_MODE,
+                ATTR_SUPPORTED_FEATURES: ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.TARGET_HUMIDITY | ClimateEntityFeature.FAN_MODE | ClimateEntityFeature.PRESET_MODE | ClimateEntityFeature.SWING_MODE,
                 ATTR_FAN_MODES: [FAN_AUTO, FAN_LOW, FAN_MEDIUM, FAN_HIGH]
             },
             "switches": {
@@ -56,18 +60,18 @@ DEVICE_SPEC = {
         0x7C: {  # Fuel Cell
             "class_name": "GenericDevice",
             "sensors": {
-                0xC1: {"name": "Temperature of water in water heater", CONF_DEVICE_CLASS: DEVICE_CLASS_TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: TEMP_CELSIUS},
-                0xC2: {"name": "Rated power generation output", CONF_DEVICE_CLASS: DEVICE_CLASS_POWER, CONF_UNIT_OF_MEASUREMENT: POWER_WATT},
+                0xC1: {"name": "Temperature of water in water heater", CONF_DEVICE_CLASS: SensorDeviceClass.TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS},
+                0xC2: {"name": "Rated power generation output", CONF_DEVICE_CLASS: SensorDeviceClass.POWER, CONF_UNIT_OF_MEASUREMENT: UnitOfPower.WATT},
                 0xC3: {"name": "Heating value of hot water storage tank", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: "MJ"},
-                0xC4: {"name": "Instantaneous power generation output", CONF_DEVICE_CLASS: DEVICE_CLASS_POWER, CONF_UNIT_OF_MEASUREMENT: POWER_WATT},
-                0xC5: {"name": "Cumulative power generation output", CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY, CONF_UNIT_OF_MEASUREMENT: ENERGY_WATT_HOUR, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
-                0xC7: {"name": "Instantaneous gas consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_GAS, CONF_UNIT_OF_MEASUREMENT: VOLUME_FLOW_RATE_CUBIC_METERS_PER_HOUR, "scale": 0.001},
-                0xC8: {"name": "Cumulative gas consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_GAS, CONF_UNIT_OF_MEASUREMENT: VOLUME_CUBIC_METERS, "scale": 0.001, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
+                0xC4: {"name": "Instantaneous power generation output", CONF_DEVICE_CLASS: SensorDeviceClass.POWER, CONF_UNIT_OF_MEASUREMENT: UnitOfPower.WATT},
+                0xC5: {"name": "Cumulative power generation output", CONF_DEVICE_CLASS: SensorDeviceClass.ENERGY, CONF_UNIT_OF_MEASUREMENT: UnitOfEnergy.WATT_HOUR, CONF_STATE_CLASS: SensorStateClass.TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
+                0xC7: {"name": "Instantaneous gas consumption", CONF_DEVICE_CLASS: SensorDeviceClass.GAS, CONF_UNIT_OF_MEASUREMENT: UnitOfVolumeFlowRate.CUBIC_METERS_PER_HOUR, "scale": 0.001},
+                0xC8: {"name": "Cumulative gas consumption", CONF_DEVICE_CLASS: SensorDeviceClass.GAS, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.CUBIC_METERS, "scale": 0.001, CONF_STATE_CLASS: SensorStateClass.TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
                 0xCB: {"name": "Power generation status", CONF_DEVICE_CLASS: None, "enum": {0x41: "Generating", 0x42: "Stopped", 0x43: "Starting", 0x44: "Stopping", 0x45: "Idling"}},
-                0xCC: {"name": "In-house instantaneous power consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_POWER, CONF_UNIT_OF_MEASUREMENT: POWER_WATT},
-                0xCD: {"name": "In-house cumulative power consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY, CONF_UNIT_OF_MEASUREMENT: ENERGY_WATT_HOUR, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
-                0xE1: {"name": "Remaining hot water amount", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS},
-                0xE2: {"name": "Tank capacity", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS},
+                0xCC: {"name": "In-house instantaneous power consumption", CONF_DEVICE_CLASS: SensorDeviceClass.POWER, CONF_UNIT_OF_MEASUREMENT: UnitOfPower.WATT},
+                0xCD: {"name": "In-house cumulative power consumption", CONF_DEVICE_CLASS: SensorDeviceClass.ENERGY, CONF_UNIT_OF_MEASUREMENT: UnitOfEnergy.WATT_HOUR, CONF_STATE_CLASS: SensorStateClass.TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
+                0xE1: {"name": "Remaining hot water amount", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.LITERS},
+                0xE2: {"name": "Tank capacity", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.LITERS},
             },
             "binary_sensors": {
                 0x80: {"name": "Operation status", "on": 0x30},
@@ -81,10 +85,11 @@ DEVICE_SPEC = {
                 'FC-70JR13T': {
                     "scan_interval": 10,
                     "sensors": {
-                        0xF2: {"name": "Hot water used today", CONF_DEVICE_CLASS: None, CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS},
+                        0xF2: {"name": "Hot water consumption in tank today", CONF_DEVICE_CLASS: SensorDeviceClass.WATER, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.LITERS, CONF_FORCE_UPDATE: True},
+                        0xF3: {"name": "Hot water consumption by combustion today", CONF_DEVICE_CLASS: SensorDeviceClass.WATER, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.LITERS, CONF_FORCE_UPDATE: True},
                         0xF4: {"name": "Hot water level in tank"},
-                        0xF6: {"name": "Cumulative hot water consumption", CONF_UNIT_OF_MEASUREMENT: VOLUME_LITERS, "scale": 0.01, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
-                        0xF7: {"name": "Cumulative other gas consumption", CONF_DEVICE_CLASS: DEVICE_CLASS_GAS, CONF_UNIT_OF_MEASUREMENT: VOLUME_CUBIC_METERS, "scale": 0.001, CONF_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
+                        0xF6: {"name": "Cumulative hot water consumption in tank", CONF_DEVICE_CLASS: SensorDeviceClass.WATER, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.LITERS, "scale": 0.01, CONF_STATE_CLASS: SensorStateClass.TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
+                        0xF7: {"name": "Cumulative other gas consumption", CONF_DEVICE_CLASS: SensorDeviceClass.GAS, CONF_UNIT_OF_MEASUREMENT: UnitOfVolume.CUBIC_METERS, "scale": 0.001, CONF_STATE_CLASS: SensorStateClass.TOTAL_INCREASING, CONF_FORCE_UPDATE: True},
                     }
                 }
             }
@@ -93,7 +98,7 @@ DEVICE_SPEC = {
         0x72: {
             "class_name": "WaterHeater",
             "sensors": {
-                0xE1: {"name": "Bath temperature", CONF_DEVICE_CLASS: DEVICE_CLASS_TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: TEMP_CELSIUS},
+                0xE1: {"name": "Bath temperature", CONF_DEVICE_CLASS: SensorDeviceClass.TEMPERATURE, CONF_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS},
                 0xF0: {},
             },
             "binary_sensors": {
@@ -101,7 +106,7 @@ DEVICE_SPEC = {
                 0xE2: {"name": "Bath water heating status", "on": 0x41},
             },
             "water_heater": {
-                ATTR_SUPPORTED_FEATURES: SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE,
+                ATTR_SUPPORTED_FEATURES: WaterHeaterEntityFeature.TARGET_TEMPERATURE | WaterHeaterEntityFeature.OPERATION_MODE,
                 ATTR_MIN_TEMP: 32,
                 ATTR_MAX_TEMP: 60
             }

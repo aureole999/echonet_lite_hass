@@ -1,14 +1,18 @@
 from datetime import timedelta
 
-from homeassistant.components.climate import ClimateEntity, SUPPORT_TARGET_TEMPERATURE, SUPPORT_TARGET_HUMIDITY, SUPPORT_FAN_MODE, SUPPORT_PRESET_MODE, SUPPORT_SWING_MODE, _LOGGER, ATTR_MIN_TEMP, ATTR_MAX_TEMP
-from homeassistant.components.climate.const import HVAC_MODE_OFF, HVAC_MODE_HEAT, HVAC_MODE_COOL, HVAC_MODE_AUTO, HVAC_MODE_DRY, HVAC_MODE_FAN_ONLY, ATTR_TARGET_TEMP_STEP, ATTR_FAN_MODES, PRESET_AWAY, PRESET_HOME
+from homeassistant.components.climate import ClimateEntity, _LOGGER, ATTR_MIN_TEMP, ATTR_MAX_TEMP
+from homeassistant.components.climate.const import HVAC_MODE_OFF, HVAC_MODE_HEAT, HVAC_MODE_COOL, HVAC_MODE_AUTO, \
+    HVAC_MODE_DRY, HVAC_MODE_FAN_ONLY, ATTR_TARGET_TEMP_STEP, ATTR_FAN_MODES, PRESET_AWAY, PRESET_HOME, \
+    ClimateEntityFeature
 from homeassistant.components.generic_thermostat.climate import CONF_PRECISION
-from homeassistant.const import CONF_UNIT_OF_MEASUREMENT, ATTR_TEMPERATURE, ATTR_SUPPORTED_FEATURES, TEMP_CELSIUS, PRECISION_WHOLE, CONF_FORCE_UPDATE
+from homeassistant.const import CONF_UNIT_OF_MEASUREMENT, ATTR_TEMPERATURE, ATTR_SUPPORTED_FEATURES, TEMP_CELSIUS, \
+    PRECISION_WHOLE, CONF_FORCE_UPDATE
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
+
 from .const import DOMAIN
 from .coordinator import MyDataUpdateCoordinator
 from .echonet_lite_lib.device_type.climate import Climate
 from .helper import get_key
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 
 async def async_setup_entry(hass, entry, async_add_entities):
@@ -54,24 +58,24 @@ class EchonetLiteClimate(CoordinatorEntity, ClimateEntity):
         self._force_update = config.get(CONF_FORCE_UPDATE, False)
 
         if not self._node.is_support(Climate.PropKey.SET_TEMP):
-            self._attr_supported_features &= ~SUPPORT_TARGET_TEMPERATURE
+            self._attr_supported_features &= ~ClimateEntityFeature.TARGET_TEMPERATURE
 
         if not self._node.is_support(Climate.PropKey.SET_HUMID):
-            self._attr_supported_features &= ~SUPPORT_TARGET_HUMIDITY
+            self._attr_supported_features &= ~ClimateEntityFeature.TARGET_HUMIDITY
 
         if not self._node.is_support(Climate.PropKey.SET_FAN) or len(config.get(ATTR_FAN_MODES, [])) == 0:
-            self._attr_supported_features &= ~SUPPORT_FAN_MODE
+            self._attr_supported_features &= ~ClimateEntityFeature.FAN_MODE
         else:
             self._attr_fan_modes = config.get(ATTR_FAN_MODES, [])
             self._fan_modes_mapping = dict(zip(self._attr_fan_modes, [e for e in Climate.FanMode]))
 
         if self._node.is_support(Climate.PropKey.POWER_SAVING_MODE):
-            self._attr_supported_features &= ~SUPPORT_PRESET_MODE
+            self._attr_supported_features &= ~ClimateEntityFeature.PRESET_MODE
         else:
             self._attr_preset_modes = list(EchonetLiteClimate.PRESET_MODE.keys())
 
         if not self._node.is_support(Climate.PropKey.SET_SWING):
-            self._attr_supported_features &= ~SUPPORT_SWING_MODE
+            self._attr_supported_features &= ~ClimateEntityFeature.SWING_MODE
 
         self.refresh_current_status()
 

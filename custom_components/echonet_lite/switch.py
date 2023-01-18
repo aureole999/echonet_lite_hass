@@ -4,7 +4,7 @@ import datetime
 from datetime import timedelta
 from typing import Any
 
-from homeassistant.components.switch import SwitchEntity, _LOGGER
+from homeassistant.components.switch import SwitchEntity, _LOGGER, SwitchDeviceClass
 from homeassistant.const import (
     CONF_DEVICE_CLASS,
     CONF_ICON,
@@ -79,7 +79,7 @@ class EchonetNodeSwitchSensor(CoordinatorEntity, SwitchEntity):
     @property
     def device_class(self):
         """Return the class of this device."""
-        return self._def.get(CONF_DEVICE_CLASS, "switch")
+        return self._def.get(CONF_DEVICE_CLASS, SwitchDeviceClass.SWITCH)
 
     @property
     def entity_category(self):

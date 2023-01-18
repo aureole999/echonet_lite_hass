@@ -2,15 +2,16 @@
 from datetime import timedelta
 
 from homeassistant.components.sensor import _LOGGER
-from homeassistant.components.water_heater import WaterHeaterEntity, SUPPORT_TARGET_TEMPERATURE
+from homeassistant.components.water_heater import WaterHeaterEntity, WaterHeaterEntityFeature
 from homeassistant.const import (
     ATTR_TEMPERATURE, TEMP_CELSIUS, PRECISION_WHOLE, CONF_FORCE_UPDATE,
 )
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
+
 from . import EchonetLiteDevice
 from .const import DOMAIN
 from .coordinator import MyDataUpdateCoordinator
 from .echonet_lite_lib.device_type.water_heater import WaterHeater
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 
 async def async_setup_entry(hass, entry, async_add_entities):
@@ -38,7 +39,7 @@ class EchonetNodeWaterHeater(CoordinatorEntity, WaterHeaterEntity):
         self._attr_supported_features = config.get("supported_features")
 
         if 0xD1 not in set_mapping:
-            self._attr_supported_features &= ~SUPPORT_TARGET_TEMPERATURE
+            self._attr_supported_features &= ~WaterHeaterEntityFeature.TARGET_TEMPERATURE
 
         self._attr_temperature_unit = TEMP_CELSIUS
         self._attr_min_temp = config.get("min_temp")
