@@ -67,7 +67,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         return False
     device = await DeviceFactory.factory(entry.data["identifier"], host, entry.data["gc"], entry.data["cc"], entry.data["ic"])
     config_data.update({entry.entry_id: device})
-    hass.config_entries.async_setup_platforms(entry, PLATFORMS)
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     # Add services
     if len(device.config.get("services", {})) > 0:
