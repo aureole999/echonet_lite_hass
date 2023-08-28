@@ -115,18 +115,18 @@ class EchonetLiteDevice:
         self.announce_mapping = decode_prop_map(opc_dict[0x9D])
         self.set_mapping = decode_prop_map(opc_dict[0x9E])
         self.get_mapping = decode_prop_map(opc_dict[0x9F])
-        self._device_info["settable props"] = str(self.set_mapping)
-        self._device_info["gettable props"] = str(self.get_mapping)
+        # self._device_info["settable props"] = str(self.set_mapping)
+        # self._device_info["gettable props"] = str(self.get_mapping)
 
     def set_device_info(self, frame: Frame, host: str, transport):
         self.update_task.set()
         opc_dict = dict((prop.EPC, prop.EDT) for prop in frame.OPC)
-        self._device_info["manufacturer_id"] = int.from_bytes(opc_dict[0x8A], byteorder="big")
+        self._manufacturer_id = int.from_bytes(opc_dict[0x8A], byteorder="big")
         self._device_info["manufacturer"] = MANUFACTURER.get(int.from_bytes(opc_dict[0x8A], byteorder="big"), f"Unknown manufacturer ({opc_dict[0x8A].hex()})")
-        self._device_info["business"] = opc_dict[0x8B].hex()
+        # self._device_info["business"] = opc_dict[0x8B].hex()
         self._device_info["model"] = opc_dict[0x8C].decode("ascii").rstrip("\x00")
-        self._device_info["product_sn"] = opc_dict[0x8D].decode("ascii").rstrip("\x00")
-        self._device_info["production_date"] = opc_dict[0x8E].hex()
+        # self._device_info["product_sn"] = opc_dict[0x8D].decode("ascii").rstrip("\x00")
+        # self._device_info["production_date"] = opc_dict[0x8E].hex()
         self._device_info["name"] = f"{CLASS_NAME.get(self.gc, {}).get(self.cc)}"
         # self._device_info["identifiers"] = {(DOMAIN, f'{self.host}_{self._device_info["manufacturer"]}_{self._device_info["model"]}_{self._device_info["product_sn"]}')}
 
