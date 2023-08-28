@@ -22,7 +22,7 @@ class DeviceFactory:
             this_device = globals()[conf.get("class_name")](identifier, host, gc, cc, ic, conf)
         await this_device.send(GET, [Property(i) for i in DEVICE_INFO_RANGE], this_device.set_device_info, retry=3)
 
-        conf = get_config(gc, cc, this_device.device_info["manufacturer_id"], this_device.device_info["model"])
+        conf = get_config(gc, cc, this_device._manufacturer_id, this_device.device_info["model"])
         if conf.get("class_name"):
             model_device = globals()[conf.get("class_name")](identifier, host, gc, cc, ic, conf)
             model_device._device_info = this_device._device_info
