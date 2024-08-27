@@ -12,7 +12,7 @@ from .echonet_lite_lib.EchonetLiteServer import main, EchonetLiteServer, echonet
 from .echonet_lite_lib.device_factory import DeviceFactory
 from homeassistant.helpers.typing import ConfigType
 
-DOMAIN = "echonet_lite"
+DOMAIN = "echonetlite"
 
 PLATFORMS = ["sensor", "switch", "water_heater", "binary_sensor", "climate"]
 
