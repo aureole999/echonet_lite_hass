@@ -1,0 +1,7 @@
+{
+  "name": "ECHONETLite Hass",
+  "render_readme": true,
+  "domains": ["binary_sensor", "climate", "sensor", "light", "switch", "water_heater"],
+  "homeassistant": "2024.6.0",
+  "iot_class": ["Local Push", "Local Polling"]
+}
