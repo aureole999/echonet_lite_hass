@@ -1,7 +1,7 @@
 
 {
   "domain": "echonetlite",
-  "name": "Echonet Lite",
+  "name": "ECHONETLite Hass",
   "config_flow": true,
   "documentation": "https://github.com/aureole999/echonet_lite_hass/",
   "dependencies": [],
