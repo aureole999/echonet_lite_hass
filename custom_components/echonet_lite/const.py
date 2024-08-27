@@ -1,4 +1,4 @@
-DOMAIN = "echonet_lite"
+DOMAIN = "echonetlite"
 
 MANUFACTURER = {
     0x0B: "Panasonic",
