@@ -1,6 +1,6 @@
 
 {
-  "domain": "echonet_lite",
+  "domain": "echonetlite",
   "name": "Echonet Lite",
   "config_flow": true,
   "documentation": "https://github.com/home-assistant/example-custom-config/tree/master/custom_components/hello_world_async/",
