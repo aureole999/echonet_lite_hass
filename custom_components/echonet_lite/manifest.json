@@ -3,7 +3,7 @@
   "domain": "echonetlite",
   "name": "Echonet Lite",
   "config_flow": true,
-  "documentation": "https://github.com/home-assistant/example-custom-config/tree/master/custom_components/hello_world_async/",
+  "documentation": "https://github.com/aureole999/echonet_lite_hass/",
   "dependencies": [],
   "codeowners": ["@aureole999"],
   "requirements": [],
