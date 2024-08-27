@@ -82,22 +82,22 @@ class EchonetLiteClimate(CoordinatorEntity, ClimateEntity):
     async def async_set_temperature(self, **kwargs) -> None:
         self._attr_target_temperature = int(kwargs.get(ATTR_TEMPERATURE))
         await self._node.async_set_prop(Climate.PropKey.SET_TEMP.value, self._attr_target_temperature)
-        await self.async_update_ha_state()
+        await self.async_write_ha_state()
 
     async def async_set_humidity(self, humidity: int) -> None:
         self._attr_target_humidity = humidity
         await self._node.async_set_prop(Climate.PropKey.SET_HUMID.value, humidity)
-        await self.async_update_ha_state()
+        await self.async_write_ha_state()
 
     async def async_set_fan_mode(self, fan_mode: str) -> None:
         self._attr_fan_mode = fan_mode
         await self._node.async_set_fan_mode(self._fan_modes_mapping.get(fan_mode))
-        await self.async_update_ha_state()
+        await self.async_write_ha_state()
 
     async def async_set_hvac_mode(self, hvac_mode: str) -> None:
         self._attr_hvac_mode = hvac_mode
         await self._node.async_set_operation_mode(EchonetLiteClimate.HVAC_MODE.get(hvac_mode))
-        await self.async_update_ha_state()
+        await self.async_write_ha_state()
 
     async def async_set_swing_mode(self, swing_mode: str) -> None:
         pass
@@ -107,7 +107,7 @@ class EchonetLiteClimate(CoordinatorEntity, ClimateEntity):
             await self._node.async_set_power_saving_mode(True)
         else:
             await self._node.async_set_power_saving_mode(False)
-        await self.async_update_ha_state()
+        await self.async_write_ha_state()
 
     async def async_turn_aux_heat_on(self) -> None:
         pass

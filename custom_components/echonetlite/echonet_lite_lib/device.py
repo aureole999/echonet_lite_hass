@@ -39,7 +39,7 @@ DEVICE_SPEC = {
                 ATTR_MIN_TEMP: 16,
                 ATTR_MAX_TEMP: 30,
                 ATTR_TARGET_TEMP_STEP: PRECISION_WHOLE,
-                ATTR_SUPPORTED_FEATURES: ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.TARGET_HUMIDITY | ClimateEntityFeature.FAN_MODE | ClimateEntityFeature.PRESET_MODE | ClimateEntityFeature.SWING_MODE,
+                ATTR_SUPPORTED_FEATURES: ClimateEntityFeature.TURN_ON | ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.TARGET_HUMIDITY | ClimateEntityFeature.FAN_MODE | ClimateEntityFeature.PRESET_MODE | ClimateEntityFeature.SWING_MODE,
                 ATTR_FAN_MODES: [FAN_AUTO, FAN_LOW, FAN_MEDIUM, FAN_HIGH]
             },
             "switches": {
